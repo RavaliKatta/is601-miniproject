@@ -38,6 +38,12 @@ class html {
         $table.= '</tr>';
         return $table;
     }
+    public static function returnHTMLHeader(){
+        $table = '<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+                    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script></head><body><table class="table table-bordered table-striped">';
+        return $table;
+    }
 }
 class csv{
     static public function getRecords($filename) {
@@ -72,6 +78,8 @@ class record {
         return $array;
     }
     public function createProperty($name = 'Company', $value = 'Infosys') {
+        $name = '<th>' . $name . '</th>';
+        $value = '<td>' .$value . '</td>';
         $this->{$name} = $value;
     }
 }
