@@ -11,8 +11,35 @@ main::start( "datatable.csv");
 class main{
     static public function start($filename){
         $records = csv::getRecords($filename);
-        print_r($records);
+        $table = html::generateTable($records);
+         echo $table;
+    }
+}
 
+class html {
+    public static function generateTable($records) {
+        $table ='';
+        $count = 0;
+        foreach ($records as $record) {
+            $array = $record->returnArray();
+            if($count == 0) {
+                $fields = array_keys($array);
+                $table = self::getString($fields, $table);
+            }
+            $values = array_values($array);
+            $table = self::getString($values, $table);
+            $count++;
+        }
+        $table.='</table></body></html>';
+        return $table;
+    }
+    public static function getString($array, $table){
+        $table.='<tr>';
+        foreach($array as $value){
+            $table .= $value;
+        }
+        $table.= '</tr>';
+        return $table;
     }
 }
 
