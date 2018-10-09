@@ -61,7 +61,6 @@ class csv{
             }
             $count++;
         }
-
         fclose($file);
         return $records;
     }
@@ -69,25 +68,18 @@ class csv{
 class record {
     public function __construct(Array $fieldNames = null, $values = null )
     {
-        $record = array_combine($fieldNames, $values);
-        foreach ($record as $property => $value) {
-            $this->createProperty($property, $value);
-        }
+        $dataTable = array_combine($fieldNames, $values);
+        $this->record = $dataTable;
     }
+
     public function returnArray() {
-        $array = (array) $this;
-        return $array;
+        return $this->record;
     }
-    public function createProperty($name = 'Company', $value = 'Infosys') {
-        $name = '<th>' . $name . '</th>';
-        $value = '<td>' .$value . '</td>';
-        $this->{$name} = $value;
+}
+class recordFactory {
+    public static function createRecord(Array $fieldNames = null, $values = null) {
+        $dataTable = new record($fieldNames, $values);
+        return $dataTable->returnArray();
     }
 }
 
-class recordFactory {
-    public static function create(Array $fieldNames = null, Array $values = null) {
-        $record = new record($fieldNames, $values);
-        return $record;
-    }
-}
