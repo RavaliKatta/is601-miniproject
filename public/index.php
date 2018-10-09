@@ -52,7 +52,17 @@ class html {
             return $output;
         }
     }
-    
+    public static function addRow($tableRow){
+        return '<tr>' . $tableRow . '</tr>';
+    }
+    public static function addTable($value, $isHeader)
+    {
+        if ($isHeader) {
+            return '<th>' . $value . '</th>';
+        } else {
+            return '<td>' . $value . '</td>';
+        }
+    }
 }
 class csv{
     static public function getRecords($filename) {
