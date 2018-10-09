@@ -75,7 +75,7 @@ class csv{
             if($count == 0) {
                 $fieldNames = $record;
             } else {
-                $records[] = recordFactory::create($fieldNames, $record);
+                $records[] = recordFactory::createRecord($fieldNames, $record);
             }
             $count++;
         }
