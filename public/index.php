@@ -15,28 +15,10 @@ class main{
     }
 }
 class html {
-    public static function generateTable($records) {
+    public static function generateTable($records)
+    {
         $table = self::getHTMLHeader();
-        $count = 0;
-        foreach ($records as $record) {
-            $array = $record->returnArray();
-            if($count == 0) {
-                $fields = array_keys($array);
-                $table = self::getString($fields, $table);
-            }
-            $values = array_values($array);
-            $table = self::getString($values, $table);
-            $count++;
-        }
-        $table.='</table></body></html>';
-        return $table;
-    }
-    public static function getString($array, $table){
-        $table.='<tr>';
-        foreach($array as $value){
-            $table .= $value;
-        }
-        $table.= '</tr>';
+        $table .= self::returnForEach($records, 'records', true) . '</table></body></html>';
         return $table;
     }
     public static function getHTMLHeader(){
@@ -45,6 +27,32 @@ class html {
                     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script></head><body><table class="table table-bordered table-striped">';
         return $table;
     }
+    public static function returnForEach($array, $arrayType, $isHeader){
+        $output = '';
+        $RowString = true;
+        foreach ($array as $value){
+            switch ($arrayType) {
+                case "records":
+                    $value = (array) $value;
+                    if($isHeader){
+                        $output .= self::returnForEach(array_keys($value), 'record' , $isHeader);
+                        $isHeader = false;
+                    }
+                    $output .= self::returnForEach(array_values($value), 'record', $isHeader);
+                    $RowString= false;
+                    break;
+                case "record":
+                    $output .= self::addTable($value, $isHeader);
+                    break;
+            }
+        }
+        if($RowString) {
+            return self::addRow($output);
+        } else {
+            return $output;
+        }
+    }
+    
 }
 class csv{
     static public function getRecords($filename) {
